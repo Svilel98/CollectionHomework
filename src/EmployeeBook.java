@@ -6,32 +6,28 @@ public class EmployeeBook {
     private final int amountDepartment = 5;
 
     public void addEmployee(Employee employee) {
-        if (sizeEmployee <= employees.size()) {
-            System.out.println("Нельзя добавить сотрудника, закончилось место");
-            System.out.println();
+        if (sizeEmployee == employees.size()) {
+            throw new RuntimeException("Overflow");
         }
         employees.put(employee.getFullName(), employee);
         sizeEmployee++;
     }
 
     public void removeEmployee(String fullname) {
-        Employee employee = employees.get(fullname);
+        Employee employee = employees.remove(fullname);
         if (employee != null) {
-            employees.remove(fullname);
             sizeEmployee--;
             System.out.println("Удалил");
+        } else {
+            throw new RuntimeException("Нет такого");
         }
-        System.out.println("____");
     }
 
-    public void findEmployee(String fullname) {
-        boolean employee = employees.containsKey(fullname);
-        if (employee) {
-            System.out.println(("Найден " + employees.get(fullname)));
-        }
-        System.out.println("Нет такого");
+    public Employee findEmployee(String fullname) {
+        return employees.get(fullname);
     }
-    public Set<Employee> getSet(){
+
+    public Set<Employee> getSet() {
         return new HashSet<>(employees.values());
     }
 }
